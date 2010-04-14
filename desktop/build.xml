@@ -13,6 +13,9 @@
 			<fileset dir="src">
 				<include name="**/*.drl"/>
 			</fileset>
+			<fileset dir="gen">
+				<include name="**/*.ser"/>
+			</fileset>
 		</copy>
 	</target>
 	
@@ -20,8 +23,9 @@
 		<mkdir dir="gen/uk/ac/horizon/apptest/desktop"/>
 		<rulebase 
 			srcdir="src/uk/ac/horizon/apptest/desktop"
-			tofile="gen/uk/ac/horizon/apptest/desktop/rules"
-			classpathref="app.classpath">
+			tofile="gen/uk/ac/horizon/apptest/desktop/rules.ser"
+			classpathref="app.classpath"
+			binformat="package">
 			<include name="*.drl"/>
 		</rulebase>
 	</target>

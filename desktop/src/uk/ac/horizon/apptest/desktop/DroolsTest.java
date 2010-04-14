@@ -3,21 +3,28 @@
  */
 package uk.ac.horizon.apptest.desktop;
 
+import java.io.ObjectInputStream;
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
+import org.drools.common.DroolsObjectInputStream;
 import org.drools.definition.KnowledgePackage;
 import org.drools.event.rule.DebugAgendaEventListener;
 import org.drools.event.rule.DebugWorkingMemoryEventListener;
 import org.drools.io.ResourceFactory;
 import org.drools.logger.KnowledgeRuntimeLogger;
 import org.drools.logger.KnowledgeRuntimeLoggerFactory;
+import org.drools.rule.Package;
 import org.drools.runtime.StatefulKnowledgeSession;
 
 /**
@@ -36,6 +43,20 @@ public class DroolsTest {
 		final KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
 		.newKnowledgeBuilder();
 
+		try {
+			ObjectInputStream ois = new DroolsObjectInputStream(DroolsTest.class.getResourceAsStream("rules.ser"));
+			
+			Object o = ois.readObject();
+			System.out.println("Found: ("+o.getClass()+") "+o.toString());
+			
+			Package p = (Package)o;
+			
+		} 
+		catch (Exception e) {
+			System.out.println("Error reading rules: "+e);
+			e.printStackTrace();
+			throw new RuntimeException("Unable to read rules");
+		}
 		// this will parse and compile in one step
 		kbuilder.add(ResourceFactory.newClassPathResource("HelloWorld.drl",
 				DroolsTest.class), ResourceType.DRL);
