@@ -12,6 +12,7 @@
 		<copy todir="bin">
 			<fileset dir="src">
 				<include name="**/*.drl"/>
+				<include name="**/*.properties"/>
 			</fileset>
 			<fileset dir="gen">
 				<include name="**/*.ser"/>
@@ -29,4 +30,85 @@
 			<include name="*.drl"/>
 		</rulebase>
 	</target>
+
+	<property name="classes.dir" value="bin"/>
+
+	
+    <!-- the classpath for the compile -->
+    <path id="compile.classpath">
+        <pathelement location="${classes.dir}"/>
+    	<fileset dir="../common/lib">
+    		<include name="*.jar"/>
+    	</fileset>
+    </path>
+
+
+
+    <target name="enhance" >
+	<!-- depends="compile,copy.metadata"-->
+
+        <!-- define the task enhancer -->
+        <taskdef name="enhancer" classname="org.datanucleus.enhancer.tools.EnhancerTask">
+            <classpath refid="compile.classpath"/>
+        </taskdef>
+
+        <!-- enhance -->
+        <enhancer classpathref="compile.classpath"
+            dir="${classes.dir}"
+            verbose="true">
+            <sysproperty key="log4j.configuration" value="file:log4j.properties"/>
+            <sysproperty key="datanucleus.metadata.validate" value="false"/>
+
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </enhancer>
+    </target>
+
+    <!-- SchemaTool "create" -->
+    <target name="createschema">
+        <taskdef name="schematool" classname="org.datanucleus.store.rdbms.SchemaToolTask">
+            <classpath refid="compile.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="compile.classpath"
+            failonerror="true" verbose="true" mode="create" props="${basedir}/datanucleus.properties">
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+    </target>
+
+    <!-- SchemaTool "delete" -->
+    <target name="deleteschema">
+        <taskdef name="schematool" classname="org.datanucleus.store.rdbms.SchemaToolTask">
+            <classpath refid="compile.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="compile.classpath"
+            failonerror="true" fork="true" verbose="true" mode="delete" props="${basedir}/datanucleus.properties">
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+    </target>
+
+    <!-- SchemaTool "dbinfo" -->
+    <target name="schemainfo">
+        <taskdef name="schematool" classname="org.datanucleus.store.rdbms.SchemaToolTask">
+            <classpath refid="compile.classpath"/>
+        </taskdef>
+
+        <schematool classpathref="compile.classpath"
+            failonerror="true" fork="true" verbose="true" mode="dbinfo" props="${basedir}/datanucleus.properties">
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+            <sysproperty key="log4j.configuration" value="file:${basedir}/log4j.properties"/>
+        </schematool>
+    </target>
+
+
 </project>

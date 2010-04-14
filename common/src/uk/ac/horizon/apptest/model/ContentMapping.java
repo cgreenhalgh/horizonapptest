@@ -3,10 +3,13 @@
  */
 package uk.ac.horizon.apptest.model;
 
+import javax.jdo.annotations.PersistenceCapable;
+
 /**
  * @author cmg
  *
  */
+@PersistenceCapable
 public class ContentMapping {
 	/** content id */
 	protected String content_id;

@@ -3,12 +3,17 @@
  */
 package uk.ac.horizon.apptest.model;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
+
 /**
  * @author cmg
  *
  */
+@PersistenceCapable
 public class Region {
 	/** region id */
+	@PrimaryKey
 	protected String id;
 	/** region name */
 	protected String title;
