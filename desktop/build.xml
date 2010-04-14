@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="desktop" basedir=".">
+
+	<taskdef name="rulebase" classname="org.drools.contrib.DroolsCompilerAntTask"/>
+
+	<path id="app.classpath">
+		<pathelement path="bin"/>
+	</path>
+	
 	<target name="copy">
 		<mkdir dir="bin"/>
 		<copy todir="bin">
@@ -7,5 +14,15 @@
 				<include name="**/*.drl"/>
 			</fileset>
 		</copy>
+	</target>
+	
+	<target name="rules">
+		<mkdir dir="gen/uk/ac/horizon/apptest/desktop"/>
+		<rulebase 
+			srcdir="src/uk/ac/horizon/apptest/desktop"
+			tofile="gen/uk/ac/horizon/apptest/desktop/rules"
+			classpathref="app.classpath">
+			<include name="*.drl"/>
+		</rulebase>
 	</target>
 </project>
