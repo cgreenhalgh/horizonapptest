@@ -14,16 +14,16 @@ import java.util.List;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderFactory;
-import org.drools.builder.ResourceType;
+//import org.drools.builder.KnowledgeBuilder;
+//import org.drools.builder.KnowledgeBuilderFactory;
+//import org.drools.builder.ResourceType;
 import org.drools.common.DroolsObjectInputStream;
 import org.drools.definition.KnowledgePackage;
 import org.drools.event.rule.DebugAgendaEventListener;
 import org.drools.event.rule.DebugWorkingMemoryEventListener;
-import org.drools.io.ResourceFactory;
-import org.drools.logger.KnowledgeRuntimeLogger;
-import org.drools.logger.KnowledgeRuntimeLoggerFactory;
+//import org.drools.io.ResourceFactory;
+//import org.drools.logger.KnowledgeRuntimeLogger;
+//import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.rule.Package;
 import org.drools.runtime.StatefulKnowledgeSession;
 
@@ -38,18 +38,19 @@ public class DroolsTest {
 	 */
 	public static void main(String[] args) {
 		// force use of JANINO
-		System.setProperty("drools.dialect.java.compiler", "JANINO");
-		// TODO Auto-generated method stub
-		final KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
-		.newKnowledgeBuilder();
+//		System.setProperty("drools.dialect.java.compiler", "JANINO");
 
+		Collection<KnowledgePackage> pkgs = new ArrayList<KnowledgePackage>();
 		try {
+			// read a rule set compiled by the rule compiler
 			ObjectInputStream ois = new DroolsObjectInputStream(DroolsTest.class.getResourceAsStream("rules.ser"));
 			
 			Object o = ois.readObject();
 			System.out.println("Found: ("+o.getClass()+") "+o.toString());
 			
+			// this doesn't match the documentation but is what I am getting for drools 5.0 compiler output
 			Package p = (Package)o;
+			pkgs.add(new org.drools.definitions.impl.KnowledgePackageImp(p));
 			
 		} 
 		catch (Exception e) {
@@ -57,6 +58,9 @@ public class DroolsTest {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to read rules");
 		}
+/*		final KnowledgeBuilder kbuilder = KnowledgeBuilderFactory
+		.newKnowledgeBuilder();
+		
 		// this will parse and compile in one step
 		kbuilder.add(ResourceFactory.newClassPathResource("HelloWorld.drl",
 				DroolsTest.class), ResourceType.DRL);
@@ -70,7 +74,7 @@ public class DroolsTest {
 		// get the compiled packages (which are serializable)
 		final Collection<KnowledgePackage> pkgs = kbuilder
 		.getKnowledgePackages();
-
+*/
 		// add the packages to a knowledgebase (deploy the knowledge packages).
 		final KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
 		kbase.addKnowledgePackages(pkgs);
@@ -83,8 +87,7 @@ public class DroolsTest {
 		ksession.addEventListener(new DebugWorkingMemoryEventListener());
 
 		// setup the audit logging
-		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory
-		.newFileLogger(ksession, "log/helloworld");
+//		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "log/helloworld");
 
 		final Message message = new Message();
 		message.setMessage("Hello World");
@@ -93,7 +96,7 @@ public class DroolsTest {
 
 		ksession.fireAllRules();
 
-		logger.close();
+//		logger.close();
 
 		ksession.dispose();
 

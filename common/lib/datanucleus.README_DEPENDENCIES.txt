@@ -1,0 +1,27 @@
+Datanucleus seems to need...
+
+CORE
+	datanucleus-core.jar
+	jdo2-api.jar
+	log4j.jar
+	? asm.jar
+
+ENHANCER
+	CORE 
+	datanucleus-enhancer.jar
+	asm.jar
+
+RDBMS
+	datanucleus-rdbms.jar
+
+HSQLDB (standalone RDBMS)
+	hsqldb.jar
+
+EXCEL
+	datanucleus-excel.jar
+	dom4j.jar
+	poi.jar
+	poi-ooxml.jar
+	poi-ooxml-schemas.jar
+	xbean.jar
+
