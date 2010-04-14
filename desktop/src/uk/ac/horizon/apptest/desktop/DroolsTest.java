@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+import uk.ac.horizon.apptest.model.UserLocation;
+import uk.ac.horizon.apptest.model.ContentMapping;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
@@ -81,7 +82,7 @@ public class DroolsTest {
 
 		final StatefulKnowledgeSession ksession = kbase
 		.newStatefulKnowledgeSession();
-		ksession.setGlobal("list", new ArrayList<Object>());
+		//ksession.setGlobal("list", new ArrayList<Object>());
 
 		ksession.addEventListener(new DebugAgendaEventListener());
 		ksession.addEventListener(new DebugWorkingMemoryEventListener());
@@ -89,11 +90,17 @@ public class DroolsTest {
 		// setup the audit logging
 //		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "log/helloworld");
 
+/*		
 		final Message message = new Message();
 		message.setMessage("Hello World");
 		message.setStatus(Message.HELLO);
 		ksession.insert(message);
-
+*/
+		ContentMapping cm = new ContentMapping("C1", "R1");
+		ksession.insert(cm);
+		UserLocation ul = new UserLocation("U1","R1");
+		ksession.insert(ul);
+		
 		ksession.fireAllRules();
 
 //		logger.close();

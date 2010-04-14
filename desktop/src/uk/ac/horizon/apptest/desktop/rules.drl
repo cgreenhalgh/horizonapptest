@@ -1,0 +1,30 @@
+package uk.ac.horizon.apptest.desktop
+ 
+import uk.ac.horizon.apptest.model.ContentMapping;
+import uk.ac.horizon.apptest.model.UserLocation;
+
+rule "Content"
+    dialect "java"
+	when
+		$cm : ContentMapping( $region : region_id , $content : content_id )
+	then
+		System.out.println( "CM "+$region+" -> "+$content);
+end
+
+rule "Location"
+    dialect "java"
+	when
+		$ul : UserLocation ( $user : user_id , $region : region_id ) 
+	then
+		System.out.println( "UL "+$user+" @ "+$region);
+end
+
+rule "Trigger"
+    dialect "java"
+	when
+		$ul : UserLocation ( $user : user_id , $region : region_id ) 
+		$cm : ContentMapping( region_id == $ul.region_id , $content : content_id )
+	then
+		System.out.println( "User "+$user+" sees "+$content ); 
+end
+

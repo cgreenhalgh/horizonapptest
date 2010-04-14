@@ -10,35 +10,35 @@ import javax.jdo.annotations.PersistenceCapable;
  *
  */
 @PersistenceCapable
-public class ContentMapping {
-	/** content id */
-	protected String content_id;
+public class UserLocation {
+	/** user id */
+	protected String user_id;
 	/** region id */
 	protected String region_id;
 	/** default cons. */
-	public ContentMapping() {
+	public UserLocation() {
 		super();
 	}
 	/**
-	 * @param contentId
+	 * @param userId
 	 * @param regionId
 	 */
-	public ContentMapping(String contentId, String regionId) {
+	public UserLocation(String userId, String regionId) {
 		super();
-		content_id = contentId;
+		user_id = userId;
 		region_id = regionId;
 	}
 	/**
-	 * @return the content_id
+	 * @return the user_id
 	 */
-	public String getContent_id() {
-		return content_id;
+	public String getUser_id() {
+		return user_id;
 	}
 	/**
-	 * @param contentId the content_id to set
+	 * @param userId the user_id to set
 	 */
-	public void setContent_id(String contentId) {
-		content_id = contentId;
+	public void setUser_id(String userId) {
+		user_id = userId;
 	}
 	/**
 	 * @return the region_id
