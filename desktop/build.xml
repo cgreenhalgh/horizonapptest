@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="desktop" basedir=".">
+	<target name="copy">
+		<mkdir dir="bin"/>
+		<copy todir="bin">
+			<fileset dir="src">
+				<include name="**/*.drl"/>
+			</fileset>
+		</copy>
+	</target>
+</project>
